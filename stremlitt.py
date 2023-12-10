@@ -7,6 +7,7 @@ import matplotlib.pyplot as plt
 @st.cache_data
 def load_data():
     data = pd.read_csv('all_players.csv')
+    data['Name'] = data['Name'].astype(str)
     return data
 
 data = load_data()
@@ -15,11 +16,9 @@ st.title('Interactive Correlation Matrix')
 
 st.write("## Correlation Matrix")
 
-num_features = st.slider("Select number of features", min_value=2, max_value=len(data.columns), value=2)
+num_features = st.slider("Select number of features", min_value=2, max_value=len(data.columns)-15, value=2)
 
-selected_features = st.multiselect("Select features", data.columns.tolist(), default=data.columns.tolist()[:num_features])
-
-
+selected_features = st.multiselect("Select features", data.columns[5:39].tolist(), default=data.columns[5:39].tolist()[:num_features])
 
 corr_matrix = data[selected_features].corr()
 plt.figure(figsize=(12, 8))
