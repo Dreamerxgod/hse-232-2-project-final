@@ -1,5 +1,5 @@
 from flask import Flask
-from flask import render_template
+from flask import render_template, request
 
 
 app = Flask(__name__)
@@ -12,6 +12,15 @@ def index():
 @app.route('/home')
 def home():
     return render_template("home.html")
+
+@app.route('/feedback', methods=['GET', 'POST'])
+def feedback():
+    if request.method == 'POST':
+        message = request.form['message']
+        return 'Thank you for your feedback!'
+    return render_template('feedback.html')
+
+
 
 
 @app.route('/analytics')

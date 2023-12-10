@@ -20,6 +20,8 @@ num_features = st.slider("Select number of features", min_value=2, max_value=len
 
 selected_features = st.multiselect("Select features", data.columns[5:39].tolist(), default=data.columns[5:39].tolist()[:num_features])
 
+
+
 corr_matrix = data[selected_features].corr()
 plt.figure(figsize=(12, 8))
 sns.heatmap(corr_matrix, annot=True, cmap='coolwarm', linewidths=.5)
@@ -31,7 +33,7 @@ st.write(corr_matrix)
 
 @st.cache_data
 def load_data():
-    data = pd.read_csv('all_players.csv')  # Замените на путь к вашему файлу
+    data = pd.read_csv('all_players.csv')
     return data
 
 data = load_data()
@@ -45,18 +47,17 @@ top_player = data.loc[data[data['Nation'] == selected_country]['Overall'].idxmax
 st.write(f"The top player in {selected_country} is {top_player['Name']} with a rating of {top_player['Overall']}.")
 
 
-# Загрузите таблицу с данными
 @st.cache_data
 def load_data():
-    data = pd.read_csv('all_players.csv')  # Замените на путь к вашему файлу
+    data = pd.read_csv('all_players.csv')
     return data
 
 data = load_data()
 
-# Создаем заголовок для вашего веб-приложения
+
 st.title('Search Players')
 
-# Опция для выбора параметров фильтрации
+
 position = st.selectbox('Position', ['ST', 'CM', 'CAM', 'CDM', 'LW', "RW", 'CB', 'GK', 'CF', 'RB', 'LB', 'LM', 'RM', 'RWB', 'LWB'])
 nation = st.text_input('Nation')
 age = st.slider('Age', min_value=17, max_value=40, value=(20, 30))
@@ -66,9 +67,7 @@ defending = st.slider('Defending', min_value=0, max_value=100, value=(20, 100))
 physicality = st.slider('Physicality', min_value=0, max_value=100, value=(20, 100))
 passing = st.slider('Passing', min_value=0, max_value=100, value=(20, 100))
 dribbling = st.slider('Dribbling', min_value=0, max_value=100, value=(20, 100))
-# Добавьте другие параметры фильтрации (скорость, удар, пас, дриблинг, стамина, оборона и другие)
 
-# Создаем датафрейм на основе выбранных фильтров
 filtered_data = data[
     (data['Position'] == position) &
     (data['Nation'].str.contains(nation, na=False, case=False)) &
@@ -81,5 +80,4 @@ filtered_data = data[
     (data['Shooting'].between(shooting[0], shooting[1]))
 ]
 
-# Отобразить результат фильтрации
 st.write(filtered_data)
